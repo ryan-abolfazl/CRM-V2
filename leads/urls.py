@@ -4,6 +4,7 @@ from .views import (
     lead_list, lead_detail, lead_create, lead_update, lead_delete,
     LeadListView, LeadDetailView, LeadCreateView, LeadUpdateView, LeadDeleteView
 )
+from django.views.generic import TemplateView
 
 app_name = "leads"
 
@@ -13,4 +14,9 @@ urlpatterns = [
     path('<int:pk>/update/', LeadUpdateView.as_view(), name='lead-update'),
     path('<int:pk>/delete/', LeadDeleteView.as_view(), name='lead-delete'),
     path('create/', LeadCreateView.as_view(), name='lead-create'),
+    path(
+        'do-logout/',
+        TemplateView.as_view(template_name='logged_out.html'),
+        name='do-logout',
+    )
 ]
