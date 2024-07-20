@@ -5,8 +5,6 @@ from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
-CustomUserModel = get_user_model()
-
 # Register your models here.
 
 
