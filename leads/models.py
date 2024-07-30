@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
+from django.db.models.signals import post_save
 CustomUser = get_user_model()
 
 
@@ -24,7 +24,15 @@ class Lead(models.Model):
 
 class Agent(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    organization = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    organization = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
+
+
+def post_user_created_signal(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+post_save.connect(post_user_created_signal, sender=settings.AUTH_USER_MODEL)

@@ -5,10 +5,11 @@ from .models import Lead, Agent
 from .forms import LeadForm, LeadModelForm, CustomUserCreationForm
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import mixins
 
 
 # CRUD+L - Create, Retrieve, Update and Delete + List
-class SignUpView(generic.CreateView):
+class SignUpView(mixins.LoginRequiredMixin, generic.CreateView):
     template_name = "registration/sign_up.html"
     form_class = CustomUserCreationForm
 
@@ -24,7 +25,7 @@ def landing_page(request):
     return render(request, "landing.html")
 
 
-class LeadListView(generic.ListView):
+class LeadListView(mixins.LoginRequiredMixin, generic.ListView):
     template_name = "lead_list.html"
     queryset = Lead.objects.all()
     context_object_name = "leads"
@@ -38,7 +39,7 @@ def lead_list(request):
     return render(request, "lead_list.html", context)
 
 
-class LeadDetailView(generic.DetailView):
+class LeadDetailView(mixins.LoginRequiredMixin, generic.DetailView):
     template_name = "lead_detail.html"
     queryset = Lead.objects.all()
     context_object_name = "lead"
@@ -52,7 +53,7 @@ def lead_detail(request, pk):
     return render(request, "lead_detail.html", context)
 
 
-class LeadCreateView(generic.CreateView):
+class LeadCreateView(mixins.LoginRequiredMixin, generic.CreateView):
     template_name = "lead_create.html"
     form_class = LeadModelForm
 
@@ -83,7 +84,7 @@ def lead_create(request):
     return render(request, "lead_create.html", context)
 
 
-class LeadUpdateView(generic.UpdateView):
+class LeadUpdateView(mixins.LoginRequiredMixin, generic.UpdateView):
     template_name = "lead_update.html"
     queryset = Lead.objects.all()
     form_class = LeadModelForm
@@ -107,7 +108,7 @@ def lead_update(request, pk):
     return render(request, "lead_update.html", context)
 
 
-class LeadDeleteView(generic.DeleteView):
+class LeadDeleteView(mixins.LoginRequiredMixin, generic.DeleteView):
     template_name = "lead_delete.html"
     queryset = Lead.objects.all()
 
