@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # local
     'accounts',
     'leads',
+    'agents',
     # 3rd party
     'rest_framework',
 ]
